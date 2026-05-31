@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fresh Slice — Production Sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #006B3F;
+    --green-dark: #004d2c;
+    --green-light: #e6f2ec;
+    --gray-100: #f5f5f5;
+    --gray-200: #e0e0e0;
+    --gray-400: #999;
+    --gray-700: #222;
+    --red: #c0392b;
+    --red-light: #fdf0ee;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Barlow', sans-serif; background: var(--gray-100); color: var(--gray-700); }
+
+  header { background: var(--green-dark); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 4px solid white; }
+  .logo-main { font-family: 'Barlow Condensed', sans-serif; font-size: 1.8rem; font-weight: 800; color: white; }
+  .logo-sub { font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700; color: white; letter-spacing: 2px; text-transform: uppercase; margin-top: 1px; }
+  .header-date { text-align: right; font-size: 0.8rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
+  .header-date span { display: block; color: white; font-weight: 600; }
+
+  main { max-width: 1080px; margin: 0 auto; padding: 18px 14px 60px; }
+
+  .meta-bar { background: white; border: 1px solid var(--gray-200); border-radius: 8px; padding: 12px 16px; display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 18px; align-items: flex-end; }
+  .meta-field { display: flex; flex-direction: column; gap: 3px; }
+  .meta-field label { font-size: 0.6rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gray-400); }
+  .meta-field input { font-family: 'Barlow', sans-serif; font-size: 0.9rem; font-weight: 600; border: none; border-bottom: 2px solid var(--gray-200); background: transparent; outline: none; padding: 2px 0; min-width: 130px; transition: border-color 0.2s; }
+  .meta-field input:focus { border-color: var(--green); }
+
+  .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 6px; padding-left: 2px; }
+
+  .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+
+  .item-card { background: white; border: 1px solid var(--gray-200); border-radius: 8px; overflow: hidden; }
+
+  .card-header { background: var(--green-dark); padding: 7px 12px; display: flex; align-items: baseline; justify-content: space-between; gap: 6px; }
+  .card-name { font-family: 'Barlow Condensed', sans-serif; font-size: 0.95rem; font-weight: 700; color: white; line-height: 1.2; }
+  .card-name-input { font-family: 'Barlow Condensed', sans-serif; font-size: 0.95rem; font-weight: 700; color: white; background: transparent; border: none; border-bottom: 1.5px dashed rgba(255,255,255,0.4); outline: none; width: 100%; padding: 1px 0; }
+  .card-name-input::placeholder { color: rgba(255,255,255,0.45); font-weight: 400; }
+  .card-weight { font-size: 0.7rem; color: white; font-weight: 600; white-space: nowrap; }
+
+  .proj-row { padding: 8px 12px 6px; border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; gap: 8px; }
+  .proj-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray-400); flex-shrink: 0; }
+  .proj-input { font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; font-weight: 800; width: 70px; padding: 4px 6px; border: 1.5px solid var(--gray-200); border-radius: 5px; text-align: center; background: var(--gray-100); outline: none; transition: border-color 0.2s; }
+  .proj-input:focus { border-color: var(--green); background: white; }
+
+  .shift-rows { display: flex; flex-direction: column; }
+  .shift-row { display: grid; grid-template-columns: 28px 1fr 1fr 1fr 1.3fr; gap: 5px; align-items: center; padding: 7px 12px; border-bottom: 1px solid var(--gray-200); }
+  .shift-row:last-child { border-bottom: none; }
+  .shift-row.am-row { background: #fafff9; }
+  .shift-row.pm-row { background: #f9f9f9; }
+
+  .shift-badge { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; text-align: center; padding: 2px 4px; border-radius: 3px; }
+  .am-badge { background: var(--green); color: white; }
+  .pm-badge { background: white; color: var(--green-dark); border: 1px solid var(--gray-200); }
+
+  .field-wrap { display: flex; flex-direction: column; gap: 1px; }
+  .field-label { font-size: 0.55rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray-400); }
+
+  .shift-input { font-family: 'Barlow', sans-serif; font-size: 0.85rem; font-weight: 600; width: 100%; padding: 4px 5px; border: 1.5px solid var(--gray-200); border-radius: 4px; text-align: center; background: var(--gray-100); outline: none; transition: border-color 0.2s; }
+  .shift-input:focus { border-color: var(--green); background: white; }
+  .shift-input:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .produce-display { font-family: 'Barlow Condensed', sans-serif; font-size: 1.2rem; font-weight: 800; width: 100%; padding: 4px 5px; border: 1.5px solid transparent; border-radius: 4px; text-align: center; background: var(--green-light); color: var(--green-dark); outline: none; cursor: text; transition: border-color 0.2s; }
+  .produce-display:focus { border-color: var(--green); }
+  .produce-display.zero { background: var(--gray-100); color: var(--gray-400); }
+  .produce-display.neg { background: var(--red-light); color: var(--red); }
+  .produce-display.pm-produce { background: #e6f2ec; color: #004d2c; }
+
+  .exp-input { font-family: 'Barlow', sans-serif; font-size: 0.8rem; font-weight: 500; width: 100%; padding: 4px 6px; border: 1.5px solid var(--gray-200); border-radius: 4px; background: var(--gray-100); outline: none; transition: border-color 0.2s; }
+  .exp-input:focus { border-color: var(--green); background: white; }
+
+  .summary-bar { background: var(--green-dark); color: white; border-radius: 8px; padding: 14px 20px; display: flex; gap: 28px; flex-wrap: wrap; margin-bottom: 14px; align-items: center; }
+  .sum-item { display: flex; flex-direction: column; gap: 2px; }
+  .sum-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+  .sum-value { font-family: 'Barlow Condensed', sans-serif; font-size: 1.5rem; font-weight: 800; color: white; }
+
+  .action-bar { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+  .btn { font-family: 'Barlow Condensed', sans-serif; font-size: 0.95rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 11px 24px; border-radius: 6px; border: none; cursor: pointer; transition: all 0.15s; }
+  .btn-clear { background: white; color: var(--gray-400); border: 1.5px solid var(--gray-200); }
+  .btn-clear:hover { border-color: var(--red); color: var(--red); }
+  .btn-calc { background: var(--green); color: white; }
+  .btn-calc:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-print { background: var(--green); color: white; border: 2px solid white; }
+  .btn-print:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+  @media (max-width: 768px) { .card-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  @media print {
+    @page { margin: 0.2in; size: landscape; }
+    body { background: white; }
+    header { background: white !important; color: black !important; border-bottom: 2px solid black; padding: 5px 10px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .logo-main { color: black !important; font-size: 1.1rem; }
+    .logo-sub { color: #333 !important; font-size: 0.65rem; }
+    .header-date, .header-date span { color: black !important; font-size: 0.65rem; }
+    .action-bar { display: none !important; }
+    main { padding: 4px; max-width: 100%; }
+    .meta-bar { padding: 5px 10px; margin-bottom: 6px; gap: 14px; border-radius: 0; border: 1px solid #ccc; }
+    .meta-field input { font-size: 0.75rem; min-width: 90px; border-color: #999; }
+    .meta-field label { font-size: 0.55rem; }
+    .section-label { font-size: 0.6rem; margin-bottom: 3px; }
+    .card-grid { gap: 5px; margin-bottom: 6px; grid-template-columns: repeat(3, 1fr) !important; }
+    .item-card { border-radius: 0 !important; border: 1px solid #555 !important; break-inside: avoid; }
+    .card-header { padding: 4px 8px; background: black !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .card-name { color: white !important; font-size: 0.8rem; }
+    .card-weight { color: white !important; font-size: 0.6rem; }
+    .card-name-input { color: white !important; font-size: 0.8rem; }
+    .proj-row { padding: 4px 8px; }
+    .proj-label { font-size: 0.55rem; }
+    .proj-input { font-size: 0.85rem; padding: 2px 4px; width: 48px; background: white !important; border: 1px solid #999 !important; border-radius: 3px; }
+    .shift-row { padding: 4px 8px; gap: 4px; }
+    .am-row { background: white !important; }
+    .pm-row { background: #ebebeb !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .am-badge { background: black !important; color: white !important; font-size: 0.6rem; padding: 1px 3px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .pm-badge { background: white !important; color: black !important; border: 1px solid black !important; font-size: 0.6rem; padding: 1px 3px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .field-label { font-size: 0.5rem; }
+    .shift-input { font-size: 0.8rem; padding: 2px 3px; background: white !important; border: 1px solid #999 !important; border-radius: 3px; }
+    .produce-display { font-size: 0.9rem; padding: 2px 3px; background: white !important; color: black !important; border: 1.5px solid black !important; border-radius: 3px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .produce-display.pm-produce { background: #e8e8e8 !important; color: black !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .exp-input { font-size: 0.72rem; padding: 2px 4px; background: white !important; border: 1px solid #999 !important; border-radius: 3px; }
+    .summary-bar { background: black !important; padding: 6px 14px; gap: 16px; margin-bottom: 0; border-radius: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; break-before: avoid; break-inside: avoid; }
+    .sum-label { font-size: 0.5rem; }
+    .sum-value { font-size: 1rem; color: white !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo-main">Fresh Slice</div>
+    <div class="logo-sub">Daily Production Sheet</div>
+  </div>
+  <div class="header-date">
+    Deli Department
+    <span id="header-date"></span>
+  </div>
+</header>
+
+<main>
+  <div class="meta-bar">
+    <div class="meta-field">
+      <label>Date</label>
+      <input type="date" id="prod-date">
+    </div>
+    <div class="meta-field">
+      <label>Prepared By</label>
+      <input type="text" placeholder="Name">
+    </div>
+    <div class="meta-field">
+      <label>Reviewed By</label>
+      <input type="text" placeholder="Name">
+    </div>
+  </div>
+
+  <div class="section-label">Deli Cheese</div>
+  <div class="card-grid" id="cheese-grid"></div>
+
+  <div class="section-label">Deli Meats</div>
+  <div class="card-grid" id="meats-grid"></div>
+
+  <div class="summary-bar">
+    <div class="sum-item"><div class="sum-label">Total Bags Today</div><div class="sum-value" id="total-all">—</div></div>
+    <div class="sum-item"><div class="sum-label">AM Total</div><div class="sum-value" id="total-am">—</div></div>
+    <div class="sum-item"><div class="sum-label">PM Total</div><div class="sum-value" id="total-pm">—</div></div>
+    <div class="sum-item"><div class="sum-label">Meat Bags</div><div class="sum-value" id="total-meat">—</div></div>
+    <div class="sum-item"><div class="sum-label">Cheese Bags</div><div class="sum-value" id="total-cheese">—</div></div>
+  </div>
+
+  <div class="action-bar">
+    <button class="btn btn-clear" onclick="clearAll()">Clear</button>
+    <button class="btn btn-calc" onclick="calculate()">Calculate</button>
+    <button class="btn btn-print" onclick="window.print()">Print Sheet</button>
+  </div>
+</main>
+
+<script>
+  const MEATS = [
+    { name: "Honey Maple Ham",       weight: 0.75 },
+    { name: "Tavern Ham",            weight: 0.75 },
+    { name: "London Broil",          weight: 0.50 },
+    { name: "Honey Ham",             weight: 0.75 },
+    { name: "Everroast",             weight: 0.75 },
+    { name: "Ovengold",              weight: 0.75 },
+    { name: "Deluxe Ham",            weight: 0.75 },
+    { name: "Blazing Buffalo",       weight: 0.75 },
+    { name: "Genoa Salami",          weight: 0.50 },
+    { name: "Black Forest Turkey",   weight: 0.75 },
+    { name: "Cracked Pepper Turkey", weight: 0.75 },
+    { name: null, weight: 0.75, flex: true },
+  ];
+
+  const CHEESES = [
+    { name: "White American",     weight: 0.50 },
+    { name: "Domestic Provolone", weight: 0.50 },
+    { name: "Smoked Gouda",       weight: 0.50 },
+    { name: "Yellow American",    weight: 0.50 },
+    { name: "Vermont Cheddar",    weight: 0.50 },
+    { name: null, weight: 0.50, flex: true },
+  ];
+
+  function buildCard(item, prefix, index) {
+    const card = document.createElement("div");
+    card.className = "item-card";
+    const flexLabel = prefix === "meat" ? "Flex Protein" : "Flex Cheese";
+    const nameHTML = item.flex
+      ? `<input class="card-name-input" type="text" placeholder="${flexLabel}" id="${prefix}-flexname-${index}">`
+      : `<span class="card-name">${item.name}</span>`;
+    card.innerHTML = `
+      <div class="card-header">
+        <div style="flex:1">${nameHTML}</div>
+        <span class="card-weight">${item.weight} lb</span>
+      </div>
+      <div class="proj-row">
+        <span class="proj-label">Projected</span>
+        <input class="proj-input" type="number" min="0" placeholder="0"
+          id="${prefix}-proj-${index}" oninput="autoCalc('${prefix}', ${index})">
+      </div>
+      <div class="shift-rows">
+        <div class="shift-row am-row">
+          <span class="shift-badge am-badge">AM</span>
+          <div class="field-wrap">
+            <span class="field-label">On Hand</span>
+            <input class="shift-input" type="number" min="0" placeholder="0"
+              id="${prefix}-hand-${index}" oninput="autoCalc('${prefix}', ${index})">
+          </div>
+          <div class="field-wrap">
+            <span class="field-label">Produce</span>
+            <input class="produce-display zero" type="number"
+              id="${prefix}-am-produce-${index}" placeholder="—">
+          </div>
+          <div class="field-wrap" style="grid-column: span 2;">
+            <span class="field-label">Expires</span>
+            <input class="exp-input" type="text" placeholder="e.g. 8:48 or 6/1"
+              id="${prefix}-am-exp-${index}">
+          </div>
+        </div>
+        <div class="shift-row pm-row">
+          <span class="shift-badge pm-badge">PM</span>
+          <div class="field-wrap" style="visibility:hidden;">
+            <span class="field-label">—</span>
+            <input class="shift-input" type="number" disabled>
+          </div>
+          <div class="field-wrap">
+            <span class="field-label">Produce</span>
+            <input class="produce-display pm-produce zero" type="number"
+              id="${prefix}-pm-produce-${index}" placeholder="—">
+          </div>
+          <div class="field-wrap" style="grid-column: span 2;">
+            <span class="field-label">Expires</span>
+            <input class="exp-input" type="text" placeholder="e.g. 2:00 or 6/2"
+              id="${prefix}-pm-exp-${index}">
+          </div>
+        </div>
+      </div>`;
+    return card;
+  }
+
+  function buildGrid(items, gridId, prefix) {
+    const grid = document.getElementById(gridId);
+    grid.innerHTML = "";
+    items.forEach((item, i) => grid.appendChild(buildCard(item, prefix, i)));
+  }
+
+  function autoCalc(prefix, i) { calcItem(prefix, i); updateSummary(); }
+
+  function calcItem(prefix, i) {
+    const proj = parseInt(document.getElementById(`${prefix}-proj-${i}`)?.value) || 0;
+    const hand = parseInt(document.getElementById(`${prefix}-hand-${i}`)?.value) || 0;
+    const amTarget = Math.ceil(proj * 0.75);
+    const amProduce = amTarget - hand;
+    const pmProduce = proj - amTarget;
+    setProduceCell(`${prefix}-am-produce-${i}`, amProduce, false);
+    setProduceCell(`${prefix}-pm-produce-${i}`, pmProduce, true);
+  }
+
+  function setProduceCell(id, val, isPm) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.value = val;
+    el.className = isPm ? "produce-display pm-produce" : "produce-display";
+    if (val === 0) el.classList.add("zero");
+    if (val < 0) el.classList.add("neg");
+  }
+
+  function calculate() {
+    MEATS.forEach((_, i) => calcItem("meat", i));
+    CHEESES.forEach((_, i) => calcItem("cheese", i));
+    updateSummary();
+  }
+
+  function updateSummary() {
+    let amTotal = 0, pmTotal = 0, meatTotal = 0, cheeseTotal = 0;
+    MEATS.forEach((_, i) => {
+      const am = parseInt(document.getElementById(`meat-am-produce-${i}`)?.value) || 0;
+      const pm = parseInt(document.getElementById(`meat-pm-produce-${i}`)?.value) || 0;
+      if (am > 0) { amTotal += am; meatTotal += am; }
+      if (pm > 0) { pmTotal += pm; meatTotal += pm; }
+    });
+    CHEESES.forEach((_, i) => {
+      const am = parseInt(document.getElementById(`cheese-am-produce-${i}`)?.value) || 0;
+      const pm = parseInt(document.getElementById(`cheese-pm-produce-${i}`)?.value) || 0;
+      if (am > 0) { amTotal += am; cheeseTotal += am; }
+      if (pm > 0) { pmTotal += pm; cheeseTotal += pm; }
+    });
+    document.getElementById("total-am").textContent = amTotal;
+    document.getElementById("total-pm").textContent = pmTotal;
+    document.getElementById("total-meat").textContent = meatTotal;
+    document.getElementById("total-cheese").textContent = cheeseTotal;
+    document.getElementById("total-all").textContent = amTotal + pmTotal;
+  }
+
+  function clearAll() {
+    if (!confirm("Clear all inputs?")) return;
+    document.querySelectorAll(".proj-input, .shift-input, .exp-input, .card-name-input").forEach(el => el.value = "");
+    document.querySelectorAll(".produce-display").forEach(el => {
+      el.value = "";
+      el.className = el.classList.contains("pm-produce") ? "produce-display pm-produce zero" : "produce-display zero";
+    });
+    ["total-am","total-pm","total-meat","total-cheese","total-all"].forEach(id => {
+      document.getElementById(id).textContent = "—";
+    });
+  }
+
+  function init() {
+    const today = new Date();
+    document.getElementById("prod-date").value = today.toISOString().split("T")[0];
+    document.getElementById("header-date").textContent = today.toLocaleDateString("en-US", {
+      weekday: "long", month: "long", day: "numeric"
+    });
+    buildGrid(MEATS, "meats-grid", "meat");
+    buildGrid(CHEESES, "cheese-grid", "cheese");
+  }
+
+  init();
+</script>
+</body>
+</html>
